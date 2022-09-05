@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -lRa | find */ -type d -exec wc l {} +
+find . -mindepth 1 -type d | wc -l
