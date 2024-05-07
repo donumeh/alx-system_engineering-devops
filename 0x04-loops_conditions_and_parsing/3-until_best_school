@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Print Best School using until loop
 
-num=1
+num=0
 
 until [ $num == 10 ]
 do
