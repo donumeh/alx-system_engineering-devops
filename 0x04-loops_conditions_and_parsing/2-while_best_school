@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Prints Best School 10 times using while loop
 
-n=1
+n=0
 
 while [ $n -lt 10 ]
 do
