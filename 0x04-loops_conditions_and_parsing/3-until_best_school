@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Print Best School using until loop
+
+num=1
+
+until [ $num == 10 ]
+do
+	echo Best School
+	num=$((num + 1))
+done
