@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Use the ssh command with the appropriate flags to connect to the server
 # -i specifies the identity file (private key)
 
