@@ -1,50 +1,49 @@
-# Install it if it's not already installed
-exec { 'install-stdlib':
-  command => '/opt/puppetlabs/bin/puppet module install puppetlabs-stdlib',
+# Ensure the puppetlabs-concat module is available
+exec { 'install-concat':
+  command => '/opt/puppetlabs/bin/puppet module install puppetlabs-concat',
   path    => ['/bin', '/usr/bin'],
-  unless  => '/opt/puppetlabs/bin/puppet module list | grep puppetlabs-stdlib',
+  unless  => '/opt/puppetlabs/bin/puppet module list | grep puppetlabs-concat',
 }
 
-
-# Using a puppet to make changes to the config file
-
-file {'/etc/ssh/ssh_config':
-  ensure => present,
-  owner  => 'root',
-  group  => 'root',
-  mode   => '0644',
+# Define the target file
+concat { '/etc/ssh/ssh_config':
+  owner => 'root',
+  group => 'root',
+  mode  => '0644',
 }
 
-file_line { 'Add Host block':
-  path  => '/etc/ssh/ssh_config',
-  line  => 'Host myserver',
-  match => '^Host myserver',
+# Add Host block
+concat::fragment { 'Host block':
+  target  => '/etc/ssh/ssh_config',
+  content => "Host myserver\n",
+  order   => 10,
 }
 
-file_line {'Add HostName':
-  path  => '/etc/ssh/ssh_config',
-  line  => '    HostName 98.98.98.98',
-  match => '^\s*HostName\s+',
-  after => '^Host myserver',
+# Add HostName
+concat::fragment { 'HostName':
+  target  => '/etc/ssh/ssh_config',
+  content => "    HostName 98.98.98.98\n",  # Replace with your server's IP address or hostname
+  order   => 20,
 }
 
-file_line {'Add User':
-  path  => '/etc/ssh/ssh_config',
-  line  => '    User ubuntu',
-  match => '^\s*User\s+',
-  after => '^Host myserver',
+# Add User
+concat::fragment { 'User':
+  target  => '/etc/ssh/ssh_config',
+  content => "    User ubuntu\n",
+  order   => 30,
 }
 
-first_line {'Add IdentityFile':
-  path  => '/etc/ssh/ssh_config',
-  line  => '    IdentityFile ~/.ssh/school',
-  match => '^\s*IdentityFile\s+',
-  after => '^Host myserver',
+# Add IdentityFile
+concat::fragment { 'IdentityFile':
+  target  => '/etc/ssh/ssh_config',
+  content => "    IdentityFile ~/.ssh/school\n",
+  order   => 40,
 }
 
-file_line {'Turn off passwd auth':
-  path  => '/etc/ssh/ssh_config',
-  line  => '    PasswordAuthentication no',
-  match => '^\s*PasswordAuthentication\s+',
-  after => '^Host myserver',
+# Add PasswordAuthentication
+concat::fragment { 'PasswordAuthentication':
+  target  => '/etc/ssh/ssh_config',
+  content => "    PasswordAuthentication no\n",
+  order   => 50,
 }
+
