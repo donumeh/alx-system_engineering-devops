@@ -1,3 +1,11 @@
+# Install it if it's not already installed
+exec { 'install-stdlib':
+  command => '/opt/puppetlabs/bin/puppet module install puppetlabs-stdlib',
+  path    => ['/bin', '/usr/bin'],
+  unless  => '/opt/puppetlabs/bin/puppet module list | grep puppetlabs-stdlib',
+}
+
+
 # Using a puppet to make changes to the config file
 
 file {'/etc/ssh/ssh_config':
