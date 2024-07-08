@@ -1,0 +1,29 @@
+#!/usr/bin/env bash 
+# Update package list and install Nginx
+apt-get update -y
+apt-get install nginx -y
+
+# Create a simple HTML file to serve
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+
+# Create a custom 404 error page
+echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
+
+# Update the Nginx configuration to use the custom 404 page
+sed -i '/^}/i \\n\terror_page 404 /custom_404.html;\n\tlocation = /custom_404.html {\n\t\tinternal;\n\t}' /etc/nginx/sites-available/default
+
+# Ensure Nginx is started (without using systemctl)
+service nginx start
+
+# Enable Nginx to start on boot (without using systemctl)
+update-rc.d nginx defaults
+
+# Restart Nginx to apply changes
+service nginx restart
+
+# Ensure firewall allows HTTP traffic
+ufw allow 'Nginx HTTP'
+
+# Confirm the setup by checking the custom 404 page
+curl -sI localhost/nonexistent_page
+
