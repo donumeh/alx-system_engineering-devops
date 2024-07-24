@@ -1,49 +1,59 @@
-# Ensure the puppetlabs-concat module is available
-exec { 'install-concat':
-  command => '/opt/puppetlabs/bin/puppet module install puppetlabs-concat',
-  path    => ['/bin', '/usr/bin'],
-  unless  => '/opt/puppetlabs/bin/puppet module list | grep puppetlabs-concat',
+# check if the puppet is installed
+
+package {'puppet':
+  ensure => present,
 }
 
-# Define the target file
-concat { '/etc/ssh/ssh_config':
-  owner => 'root',
-  group => 'root',
-  mode  => '0644',
+
+# ensure the puppet stdlib is installed
+
+exec {'puppet_stdlib':
+  command => '/usr/bin/puppet module install puppetlabs-stdlib',
+  require => Package['puppet'],
 }
 
-# Add Host block
-concat::fragment { 'Host block':
-  target  => '/etc/ssh/ssh_config',
-  content => "Host myserver\n",
-  order   => 10,
+# ensure the puppet inifile is installed
+
+exec {'puppet_inifile':
+  command => '/usr/bin/puppet module install puppetlabs-stdlib',
+  require => Exec['puppet_stdlib'],
 }
 
-# Add HostName
-concat::fragment { 'HostName':
-  target  => '/etc/ssh/ssh_config',
-  content => "    HostName 98.98.98.98\n",  # Replace with your server's IP address or hostname
-  order   => 20,
+# ensure the file exists
+
+file {'~/.ssh/ssh_config':
+  ensure  => present,
+  require => Exec['puppet_inifile'],
 }
 
-# Add User
-concat::fragment { 'User':
-  target  => '/etc/ssh/ssh_config',
-  content => "    User ubuntu\n",
-  order   => 30,
+# append the host
+
+file_line {'insert_host':
+  ensure  => present,
+  path    => '~/.ssh/ssh_config',
+  line    => "Host ubuntu_server",
+  match   => "^Host ubuntu_server",
+  requre  => File['~/.ssh/ssh_config'],
 }
 
-# Add IdentityFile
-concat::fragment { 'IdentityFile':
-  target  => '/etc/ssh/ssh_config',
-  content => "    IdentityFile ~/.ssh/school\n",
-  order   => 40,
+# append the HostName
+
+file_line {'insert_hostname':
+  ensure  => present,
+  path    => '~/.ssh/ssh_config',
+  after   => 'Host ubuntu_server',
+  line    => '    HostName 98.98.98.98',
+  match   => '^\s+HostName 98.98.98.98',
+  require => File['~/.ssh/ssh_config'],
 }
 
-# Add PasswordAuthentication
-concat::fragment { 'PasswordAuthentication':
-  target  => '/etc/ssh/ssh_config',
-  content => "    PasswordAuthentication no\n",
-  order   => 50,
-}
+# append the user name
 
+file_line {'inser_user':
+  ensure  => present,
+  path    => '~/.ssh/ssh_config',
+  after   => '    HostName 98.98.98.98',
+  line    => '    User ubuntu',
+  match   => '^\s+User ubuntu',
+  require => File['~/.ssh/ssh_config'],
+}
