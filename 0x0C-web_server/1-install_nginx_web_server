@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
-# Install nginx
+# Update package list and install Nginx
 
 apt-get update -y
 apt-get install nginx -y
 
+# Create a simple HTML file to serve
 echo "Hello World" | sudo tee /var/www/html/index.html
 
+# Ensure Nginx is started
 service nginx start
 
+# Enable Nginx to start on boot
 update-rc.d nginx defaults
 
+# Restart Nginx to apply changes
 service nginx restart
 
+# Ensure firewall allows HTTP traffic
 ufw allow 'Nginx HTTP'
 
+# Confirm the setup
 curl localhost
