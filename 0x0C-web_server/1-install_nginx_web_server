@@ -1,24 +1,9 @@
-#!/usr/bin/env bash
-# Update package list and install Nginx
+# Install nginx
 
-apt-get update -y
-apt-get install nginx -y
+sudo apt-get update && sudo apt-get install nginx -y
 
-# Create a simple HTML file to serve
-echo 'Hello World!' > /var/www/html/index.html
+sudo service nginx start
 
-# Ensure Nginx is started (without using systemctl)
-service nginx start
+echo "Hello World" > /var/www/html/index.nginx-debian.html
 
-# Enable Nginx to start on boot (without using systemctl)
-update-rc.d nginx defaults
-
-# Restart Nginx to apply changes
-service nginx restart
-
-# Ensure firewall allows HTTP traffic
-ufw allow 'Nginx HTTP'
-
-# Confirm the setup
-curl localhost
-
+sudo service nginx restart
