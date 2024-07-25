@@ -17,6 +17,3 @@ sudo service nginx restart
 
 # Ensure firewall allows HTTP traffic
 sudo ufw allow 'Nginx HTTP'
-
-# Confirm the setup
-sudo curl -sI localhost/redirect_me
