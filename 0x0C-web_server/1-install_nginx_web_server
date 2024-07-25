@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 # Install nginx
 
-sudo apt-get update -y
-sudo apt-get install nginx -y
+apt-get update -y
+apt-get install nginx -y
 
 echo "Hello World" | sudo tee /var/www/html/index.html
 
-sudo service nginx start
+service nginx start
 
-sudo update-rc.d nginx defaults
+update-rc.d nginx defaults
 
-sudo service nginx restart
+service nginx restart
 
-sudo ufw allow 'Nginx HTTP'
+ufw allow 'Nginx HTTP'
 
-sudo curl localhost
+curl localhost
