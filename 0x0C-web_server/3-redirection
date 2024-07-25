@@ -1,26 +1,25 @@
 #!/usr/bin/env bash
 # Update package list and install Nginx
-apt-get update -y
-apt-get install nginx -y
+sudo apt-get update -y
+sudo apt-get install nginx -y
 
 # Create a simple HTML file to serve
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+sudo echo 'Hello World!' | sudo tee /var/www/html/index.nginx-debian.html
 
 # Add a server block for the redirection
-sed -i '/^}/i \\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}' /etc/nginx/sites-available/default
+sudo sed -i '/^}/i \\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}' /etc/nginx/sites-available/default
 
 # Ensure Nginx is started (without using systemctl)
-service nginx start
+sudo service nginx start
 
 # Enable Nginx to start on boot (without using systemctl)
-update-rc.d nginx defaults
+sudo update-rc.d nginx defaults
 
 # Restart Nginx to apply changes
-service nginx restart
+sudo service nginx restart
 
 # Ensure firewall allows HTTP traffic
-ufw allow 'Nginx HTTP'
+sudo ufw allow 'Nginx HTTP'
 
 # Confirm the setup
-curl -sI localhost/redirect_me
-
+sudo curl -sI localhost/redirect_me
