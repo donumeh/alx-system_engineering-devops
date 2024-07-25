@@ -11,4 +11,6 @@ update-rc.d nginx defaults
 
 service nginx restart
 
+ufw allow 'Nginx HTTP'
 
+curl localhost
