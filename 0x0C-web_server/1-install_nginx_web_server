@@ -5,6 +5,7 @@ sudo apt-get install nginx -y
 
 # Create a simple HTML file to serve
 sudo echo 'Hello World!' | sudo tee /var/www/html/index.nginx-debian.html
+sudo echo 'Hello World!' | sudo tee /var/www/html/index.html
 
 # Ensure Nginx is started (without using systemctl)
 sudo service nginx start
