@@ -16,7 +16,7 @@ def number_of_subscribers(subreddit) -> int:
     return: 0 if not a valud subreddit, else number of follower
     """
     # Define the base URL
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
 
     # Set custom User-Agent to avoid Too Many Requests error
     headers = {"User-Agent": "Mozilla/5.0"}
