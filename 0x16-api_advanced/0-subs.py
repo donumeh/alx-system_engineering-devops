@@ -1,11 +1,13 @@
 #!/usr/bin/python3
-""" Request for an info from Reddit api """
+"""
+Request for an info from Reddit api
+"""
 
 
 import requests
 
 
-def number_of_subscribers(subreddit):
+def number_of_subscribers(subreddit) -> int:
     """
     Function that request for number of subscribers in a reddit channel
     args:
