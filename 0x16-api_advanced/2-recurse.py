@@ -2,7 +2,7 @@
 
 """
 Recursively query the reddit API and return
-a list containing the titles of all hot 
+a list containing the titles of all hot
 articles for a given subreddit
 """
 
@@ -38,7 +38,8 @@ def recurse(subreddit, hot_list=[], after=None):
             children = data.get("children", [])
 
             # Extend the hot_list with the titles of the current batch of posts
-            hot_list.extend([child.get("data", {}).get("title") for child in children])
+            l_d = [child.get("data", {}).get("title") for child in children]
+            hot_list.extend(l_d)
 
             # Check if there is a next page
             after = data.get("after")
