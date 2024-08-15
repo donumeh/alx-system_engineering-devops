@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 # Install apache2 in docker and add a ServerName directive
 
-apt-get update && apt-get install apache2
+# Update package list and install apache2
+apt-get update && apt-get install apache2 -y
+
+# Add ServerName directive to suppress warning
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
-service restart apache2
+
+# Create a custome HTML page by add Hello Holberton
+echo "Hello Holberton" > /var/www/html/index.html
+
+# Restart Apache2 server on daemon
+service apache2 start
