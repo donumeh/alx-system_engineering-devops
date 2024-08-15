@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Install apache2 in docker and add a ServerName directive
+
+apt-get update && apt-get install apache2
+echo "ServerName localhost" >> /etc/apache2/apache2.conf
+service restart apache2
