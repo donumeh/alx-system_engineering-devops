@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Configure HAproxy to serve for both web servers
+
 
 # Update the package list and install HAproxy
 sudo apt-get update
