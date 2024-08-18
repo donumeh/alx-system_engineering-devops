@@ -1,3 +1,4 @@
+# Configure http header response using puppet
 package {'nginx':
   ensure => installed,
 }
