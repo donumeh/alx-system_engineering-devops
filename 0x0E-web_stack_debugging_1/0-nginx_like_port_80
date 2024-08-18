@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Reconfigures nginx to listen on port 80
+
+
+for file in /etc/nginx/sites-available/*
+do
+	sed -i 's/listen\s*/listen *:80; #' "$file"
+done
+
+sudo systemctl reload nginx
