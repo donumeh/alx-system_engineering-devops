@@ -3,11 +3,9 @@
 
 
 # Update the package list and install HAproxy
-sudo apt-get update
-sudo apt-get install -y haproxy
-
-# Ensure the hostnames are correct
-sudo hostnamectl set-hostname 55461-lb-01
+sudo apt-get install --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.9 -y
+sudo apt-get install haproxy=2.9.\*
 
 # Configure HAproxy
 sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
@@ -48,5 +46,5 @@ backend http_back
 EOF
 
 # Start and enable HAproxy
-sudo systemctl restart haproxy
 sudo systemctl enable haproxy
+sudo systemctl start haproxy
